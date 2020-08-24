@@ -128,32 +128,19 @@ public class Pong extends JPanel implements Runnable, KeyListener {
 
                     if (spielball.getRect().intersects(leftBumper.getRect())) {    // to check if the ball is hitting a Bumper
 
-                            for(int i = 0; i < 50; i++) {
-                                if (spielball.getYKoord() - 10 == leftBumper.getXKoord()+ i) {
+                        for(int i = 0;i < leftBumper.getHeight(); i++){
+                            if(spielball.getYKoord() - 10 == leftBumper.getYKoord()+ i){
+                                if(i <= 50 || i > 200){
                                     spielball.actionAngle((int) (Math.random() * 5)  + 1);
                                 }
-                            }
-                            for(int i = 50; i < 100; i++) {
-                                if (spielball.getYKoord()- 10 == leftBumper.getYKoord()+ i) {
+                                if(i > 50 && i <= 100 || i > 150 && i <= 200){
                                     spielball.actionAngle((int) (Math.random() * 10)  + 1);
                                 }
-                            }
-                            for(int i = 100; i < 150; i++) {
-                                if (spielball.getYKoord()- 10 == leftBumper.getYKoord()+ i) {
+                                if(i > 100 && i <= 150 ){
                                     spielball.actionAngle((int) (Math.random() * 20)  + 1);
                                 }
                             }
-                            for(int i = 150; i < 200; i++) {
-                                if (spielball.getYKoord()- 10 == leftBumper.getYKoord()+ i) {
-                                    spielball.actionAngle((int) (Math.random() * 10)  + 1);
-                                }
-                            }
-                            for(int i = 200; i < 250; i++) {
-                                if (spielball.getYKoord()- 10 == leftBumper.getYKoord() + i) {
-                                    spielball.actionAngle((int) (Math.random() * 5)  + 1);
-                                }
-                            }
-
+                        }
 
                         spielball.aendereXRichtung();
                         Playgoal(goalBumper);
@@ -161,32 +148,19 @@ public class Pong extends JPanel implements Runnable, KeyListener {
 
                     if (spielball.getRect().intersects(rightBumper.getRect())) {    // to check if the ball is hitting a Bumper
 
-                            for(int i = 0; i < 50; i++) {
-                                if (spielball.getYKoord()- 10 == rightBumper.getYKoord()+ i ) {
+                        for(int i = 0;i < rightBumper.getHeight(); i++){
+                            if(spielball.getYKoord() - 10 == rightBumper.getYKoord()+ i){
+                                if(i <= 50 || i > 200){
                                     spielball.actionAngle((int) (Math.random() * 5)  + 1);
                                 }
-                            }
-                            for(int i = 50; i < 100; i++) {
-                                if (spielball.getYKoord()- 10 == rightBumper.getYKoord()+ i) {
+                                if(i > 50 && i <= 100 || i > 150 && i <= 200){
                                     spielball.actionAngle((int) (Math.random() * 10)  + 1);
                                 }
-                            }
-                            for(int i = 100; i < 150; i++) {
-                                if (spielball.getYKoord()- 10 == rightBumper.getYKoord()+ i) {
+                                if(i > 100 && i <= 150 ){
                                     spielball.actionAngle((int) (Math.random() * 20)  + 1);
                                 }
                             }
-                            for(int i = 150; i < 200; i++) {
-                                if (spielball.getYKoord()- 10 == rightBumper.getYKoord()+ i) {
-                                    spielball.actionAngle((int) (Math.random() * 10) + 1);
-                                }
-                            }
-                            for(int i = 200; i < 250; i++) {
-                                if (spielball.getYKoord()- 10 == rightBumper.getYKoord() + i) {
-                                    spielball.actionAngle((int) (Math.random() * 5)  + 1);
-                                }
-                            }
-
+                        }
 
                         spielball.aendereXRichtung();
                         Playgoal(goalBumper);
