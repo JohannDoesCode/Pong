@@ -184,11 +184,14 @@ public class Pong extends JPanel implements Runnable, KeyListener {
 
     public void moveObjects() {
         spielball.move();
-        rightBumper.setBallSpeed(spielball.getYKoord());
         if (newTimer.getSeconds() > 0) {
+            rightBumper.setBallSpeed(spielball.getYKoord());
             leftBumper.move(true);
             if(!botIsValid) {
                 rightBumper.move(true);
+            }
+            else if (botIsValid){
+                rightBumper.move(false);
             }
         }
     }
