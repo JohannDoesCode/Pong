@@ -60,7 +60,12 @@ public class Ball {
     }   // for the restart
 
     public void action(int i) {   // to stop the ball moving after the round ends or lot it reset
-        dx = i;
+        dx = i + manyUps;
+        dy = i + manyUps;
+
+    }
+
+    public void actionAngle(int i) {
         dy = i;
     }
 
@@ -86,12 +91,14 @@ public class Ball {
 
         if (xKoord > 780) {     // let it respawn after a goal
             respawn();
+            action(3);
             counterLeft += 1;
         }
 
         if (xKoord < 0) {       // let it respawn after a goal
 
             respawn();
+            action(3);
             counterRight += 1;
         }
 
