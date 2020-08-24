@@ -1,7 +1,7 @@
 import java.awt.Rectangle;
 
 public class Bumper {
-    private int xKoord, yKoord, width, height, v, manyUps, gravity;
+    private int xKoord, yKoord, width, height, v, manyUps, gravity, difficulty, speed;
     private Rectangle rect;
 
 
@@ -13,7 +13,16 @@ public class Bumper {
         this.gravity = 1;       // velocity of the Bumpers
         this.v = 0;             // direction in which the Bumpers are commanded to go
         this.manyUps = 0;
+        this.speed = 0;
         rect = new Rectangle(xKoord, yKoord, width, height);
+    }
+
+    public void setDifficulty(int diffi){
+        difficulty = diffi;
+    }
+
+    public void setBallSpeed(int speedY){
+        this.speed = speedY;
     }
 
     public int getYKoord() {
@@ -41,33 +50,64 @@ public class Bumper {
     }
 
 
-    public void move() {
-        if(yKoord <= 598 - height) {
-            yKoord += gravity;
-        }
-        rect.setLocation(xKoord, yKoord);
-
-
-        if (v == 0) {
+    public void move(boolean movement) {
+        if(movement) {
+            if (yKoord <= 598 - height) {
+                yKoord += gravity;
+            }
             rect.setLocation(xKoord, yKoord);
+
+
+            if (v == 0) {
+                rect.setLocation(xKoord, yKoord);
+            }
+
+            if (yKoord > 600 - height) {
+                yKoord -= (5 + manyUps);
+            }
+
+            if (yKoord < 0) {
+                yKoord += (5 + manyUps);
+            }
+
+            if (v == 1) {   // let the ball moves up
+                yKoord -= (5 + manyUps);
+            }
+
+            if (v == 2) {   // let the ball moves down
+                yKoord += (5 + manyUps);
+            }
         }
 
-        if (yKoord > 600 - height) {
-            yKoord -= (5 + manyUps);
-        }
+        if(!movement) {
 
-        if (yKoord < 0) {
-            yKoord += (5 + manyUps);
-        }
+            if (yKoord <= 598 - height) {
+                yKoord += gravity;
+            }
+                rect.setLocation(xKoord, yKoord);
 
-        if (v == 1) {   // let the ball moves up
-            yKoord -= (5 + manyUps);
-        }
+            if(difficulty == 1){
+                if (yKoord > 600 - height) {
+                    yKoord = speed - 2 ;
+                }
+                yKoord = speed - 2 ;
+            }
 
-        if (v == 2) {   // let the ball moves down
-            yKoord += (5 + manyUps);
-        }
+            if(difficulty == 2){
+                if (yKoord > 600 - height) {
+                    yKoord = speed - 1 ;
+                }
+                yKoord = speed - 1 ;
+            }
 
+            if(difficulty == 3){
+                if (yKoord > 600 - height) {
+                    yKoord = speed ;
+                }
+                yKoord = speed ;
+            }
+
+        }
     }
 
     public void powerUp() {
