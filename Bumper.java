@@ -21,8 +21,9 @@ public class Bumper {
         difficulty = diffi;
     }
 
-    public void setBallSpeed(int speedY){
-        this.speed = speedY;
+    public void setSpeed(int speed){
+        this.speed = speed;
+
     }
 
     public int getYKoord() {
@@ -87,31 +88,55 @@ public class Bumper {
                 rect.setLocation(xKoord, yKoord);
 
             if(difficulty == 1){    // BOT IST UNBESIEGBAR      // TIMER KONFIGURATION FEHLT NOCH
-                if (yKoord > 600 - height) {
-                    if(speed < 0) {
-                        yKoord = speed - 1;
-                    }
+                if(speed > 3){
+                    speed = 3 + manyUps;
+                    yKoord += speed ;
                 }
-                yKoord = speed - 2 ;
+                if(speed < -3){
+                    speed = -(4  + manyUps);
+                    yKoord += speed ;
+                }
+                if (yKoord > 600 - height) {
+                    yKoord -= speed ;
+                }
+                if (yKoord < 0){
+                    yKoord += speed ;
+                }
+
             }
 
             if(difficulty == 2){
-                if (yKoord > 600 - height) {
-                    if(speed < 0) {
-                        yKoord = speed - 1;
-                    }
+                if(speed > 3){
+                    speed = 3 + manyUps;
+                    yKoord += speed ;
                 }
-                yKoord = speed - 1 ;
+                if(speed < -3){
+                    speed = -(4  + manyUps);
+                    yKoord += speed ;
+                }
+                if (yKoord > 600 - height) {
+                    yKoord -= speed ;
+                }
+                if(yKoord < 0) {
+                    yKoord += speed ;
+                }
             }
 
             if(difficulty == 3){
-                if (yKoord > 600 - height) {
-                    if(speed < 0) {
-                        yKoord = speed - 1;
-                        gravity = 2;
-                    }
+                if(speed > 3){
+                    speed = 4 + manyUps;
+                    yKoord += speed ;
                 }
-                yKoord = speed ;
+                if(speed < -3){
+                    speed = -(5  + manyUps);
+                    yKoord += speed ;
+                }
+                if (yKoord > 600 - height) {
+                    yKoord -= speed ;
+                }
+                if(yKoord < 0) {
+                    yKoord += speed ;
+                }
             }
 
         }

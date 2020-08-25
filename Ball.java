@@ -91,14 +91,14 @@ public class Ball {
 
         if (xKoord > 780) {     // let it respawn after a goal
             respawn();
-            action(3);
+            action(4);
             counterLeft += 1;
         }
 
         if (xKoord < 0) {       // let it respawn after a goal
 
             respawn();
-            action(3);
+            action(4);
             counterRight += 1;
         }
 

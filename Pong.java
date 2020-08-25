@@ -46,8 +46,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {
         randY = (int) ((Math.random() * 300) + 100);   // y-axis coordinate for the power-up
         counter = 0;    // prevent to the console gets spammed with text
         spielball = new Ball();
-        leftBumper = new Bumper(65);
-        rightBumper = new Bumper(720);
+        leftBumper = new Bumper(35);
+        rightBumper = new Bumper(750);
         goal = new File("sounds/umbrella.wav");
         hitItem = new File("sounds/dink.wav");
         goalBumper = new File("sounds/rock.wav");
@@ -73,7 +73,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {
         shadow.start();
         start = 1;
         spielball.respawn();
-        spielball.action(3);
+        spielball.action(4);
         leftBumper.action(1);
         rightBumper.action(1);
         spielball.resetPowerUp();
@@ -185,7 +185,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {
     public void moveObjects() {
         spielball.move();
         if (newTimer.getSeconds() > 0) {
-            rightBumper.setBallSpeed(spielball.getYKoord());
+            rightBumper.setSpeed(spielball.getYKoord() - rightBumper.getYKoord());
             leftBumper.move(true);
             if(!botIsValid) {
                 rightBumper.move(true);
@@ -475,6 +475,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {
                 if (e.getKeyChar() == 'b') {
                     botIsValid = true;
                     setDifficulty(1);
+                    rightBumper.setDifficulty(1);
                 }
             }
 
