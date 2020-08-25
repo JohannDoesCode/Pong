@@ -219,7 +219,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.setFont(big);
             g.drawString("press r to start", 275, 300);
             g.setFont(micro);
-            g.drawString(" n: ", 35, 540);
+            g.drawString(" N: ", 35, 540);
             g.drawString(" B: ", 35, 500);
             g.setFont(micro);
             g.setColor(Color.BLACK);
@@ -278,7 +278,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.drawString(" AI activated", 50, 500);
             g.drawString(" AI deactivated", 50, 540);
             g.setFont(micro);
-            g.drawString(" n: ", 35, 540);
+            g.drawString(" N: ", 35, 540);
             g.drawString(" B: ", 35, 500);
             g.drawString("easy", 50, 580);
             g.drawString("normal", 50, 580);
@@ -342,7 +342,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
 
                 g.setFont(micro);
-                g.drawString(" n: ", 35, 540);
+                g.drawString(" N: ", 35, 540);
                 g.drawString(" B: ", 35, 500);
                 g.setFont(micro);
                 g.setColor(Color.BLACK);
@@ -422,8 +422,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString("press r to start", 340, 500);
 
                 g.setFont(micro);
-                g.drawString(" n: ", 35, 540);
-                g.drawString("B", 35, 500);
+                g.drawString(" N: ", 35, 540);
+                g.drawString(" B", 35, 500);
                 g.setFont(micro);
                 g.setColor(Color.BLACK);
                 g.drawString("easy", 50, 580);
@@ -502,7 +502,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString("press r to start", 340, 500);
 
                         g.setFont(micro);
-                        g.drawString(" n: ", 35, 540);
+                        g.drawString(" N: ", 35, 540);
                         g.drawString(" B: ", 35, 500);
                         g.setFont(micro);
                         g.setColor(Color.BLACK);
