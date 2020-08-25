@@ -101,7 +101,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
                     if (spielball.getCounterRight() >= 1 || spielball.getCounterLeft() >= 1) {   // to give the power-up a chance to spawn in after getting at least 1 goal
                         if (!item.getVisible() && newTimer.getSeconds() > 0) {
-                            int rand = (int) ((Math.random() * 1500) + 1);    // to randomize the chance a power-up spawns
+                            int rand = (int) ((Math.random() * 2000) + 1);    // to randomize the chance a power-up spawns
                             if (rand == 20) {
                                 randX = (int) ((Math.random() * 400) + 200);    // randomize the new spawn coordinates from the power-up
                                 randY = (int) ((Math.random() * 300) + 100);
@@ -190,7 +190,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             if(!botIsValid) {
                 rightBumper.move(true);
             }
-            if (botIsValid){
+            else if (botIsValid){
                 rightBumper.move(false);
             }
         }
@@ -214,13 +214,12 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (start == 0 && firstStart == 0) { // to draw the start screen
-
             g.setColor(Color.WHITE);
             g.setFont(big);
             g.drawString("press r to start", 275, 300);
             g.setFont(micro);
-            g.drawString(" N: ", 35, 540);
-            g.drawString(" B: ", 35, 500);
+            g.drawString(" n: ", 35, 540);
+            g.drawString(" b: ", 35, 500);
             g.setFont(micro);
             g.setColor(Color.BLACK);
             g.drawString("easy", 50, 580);
@@ -278,8 +277,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.drawString(" AI activated", 50, 500);
             g.drawString(" AI deactivated", 50, 540);
             g.setFont(micro);
-            g.drawString(" N: ", 35, 540);
-            g.drawString(" B: ", 35, 500);
+            g.drawString(" n: ", 35, 540);
+            g.drawString(" b: ", 35, 500);
             g.drawString("easy", 50, 580);
             g.drawString("normal", 50, 580);
             g.drawString("hardcore", 50, 580);
@@ -342,8 +341,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
 
                 g.setFont(micro);
-                g.drawString(" N: ", 35, 540);
-                g.drawString(" B: ", 35, 500);
+                g.drawString(" n: ", 35, 540);
+                g.drawString(" b: ", 35, 500);
                 g.setFont(micro);
                 g.setColor(Color.BLACK);
                 g.drawString("easy", 50, 580);
@@ -422,8 +421,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString("press r to start", 340, 500);
 
                 g.setFont(micro);
-                g.drawString(" N: ", 35, 540);
-                g.drawString(" B", 35, 500);
+                g.drawString(" n: ", 35, 540);
+                g.drawString(" b: ", 35, 500);
                 g.setFont(micro);
                 g.setColor(Color.BLACK);
                 g.drawString("easy", 50, 580);
@@ -502,8 +501,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString("press r to start", 340, 500);
 
                         g.setFont(micro);
-                        g.drawString(" N: ", 35, 540);
-                        g.drawString(" B: ", 35, 500);
+                        g.drawString(" n: ", 35, 540);
+                        g.drawString(" b: ", 35, 500);
                         g.setFont(micro);
                         g.setColor(Color.BLACK);
                         g.drawString("easy", 50, 580);
