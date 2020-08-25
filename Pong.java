@@ -9,7 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 
-public class Pong extends JPanel implements Runnable, KeyListener {
+public class Pong extends JPanel implements Runnable, KeyListener {         // TIMER KONFIGURATION FEHLT NOCH
 
     JFrame myFrame;
     Ball spielball;
@@ -219,7 +219,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {
             g.drawString("press r to start", 275, 300);
             g.setFont(micro);
             g.drawString(" n: ", 35, 540);
-            g.drawString(" b: ", 35, 500);
+            g.drawString(" B: ", 35, 500);
             g.setFont(micro);
             g.setColor(Color.BLACK);
             g.drawString("easy", 50, 580);
@@ -278,7 +278,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {
             g.drawString(" AI deactivated", 50, 540);
             g.setFont(micro);
             g.drawString(" n: ", 35, 540);
-            g.drawString(" b: ", 35, 500);
+            g.drawString(" B: ", 35, 500);
             g.drawString("easy", 50, 580);
             g.drawString("normal", 50, 580);
             g.drawString("hardcore", 50, 580);
@@ -339,6 +339,59 @@ public class Pong extends JPanel implements Runnable, KeyListener {
                 g.setFont(small);
                 g.drawString("press r to start", 340, 500);
 
+
+                g.setFont(micro);
+                g.drawString(" n: ", 35, 540);
+                g.drawString(" B: ", 35, 500);
+                g.setFont(micro);
+                g.setColor(Color.BLACK);
+                g.drawString("easy", 50, 580);
+                g.drawString("normal", 50, 580);
+                g.drawString("hardcore", 50, 580);
+
+                if(!botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI activated", 50, 500);
+                    g.setColor(Color.RED);
+                    g.drawString(" AI deactivated", 50, 540);
+                    rightBumper.move(true);
+                }
+
+                if(botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI deactivated", 50, 540);
+                    g.setColor(Color.GREEN);
+                    g.drawString(" AI activated", 50, 500);
+                    rightBumper.move(false);
+
+                    if(difficulty == 1) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("normal", 50, 580);
+                        g.setColor(Color.GREEN);
+                        g.drawString("easy", 50, 580);
+                    }
+                    if(difficulty == 2) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.drawString("normal", 50, 580);
+                    }
+                    if(difficulty == 3) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("normal", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.RED);
+                        g.drawString("hardcore", 50, 580);
+                    }
+                }
+
                 if (soundChecker == 0) {
                     Playgoal(win);
                     soundChecker += 1;
@@ -367,7 +420,59 @@ public class Pong extends JPanel implements Runnable, KeyListener {
                 g.setFont(small);
                 g.drawString("press r to start", 340, 500);
 
-                if (soundChecker == 0) {
+                g.setFont(micro);
+                g.drawString(" n: ", 35, 540);
+                g.drawString("B", 35, 500);
+                g.setFont(micro);
+                g.setColor(Color.BLACK);
+                g.drawString("easy", 50, 580);
+                g.drawString("normal", 50, 580);
+                g.drawString("hardcore", 50, 580);
+
+                if(!botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI activated", 50, 500);
+                    g.setColor(Color.RED);
+                    g.drawString(" AI deactivated", 50, 540);
+                    rightBumper.move(true);
+                }
+
+                if(botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI deactivated", 50, 540);
+                    g.setColor(Color.GREEN);
+                    g.drawString(" AI activated", 50, 500);
+                    rightBumper.move(false);
+
+                    if (difficulty == 1) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("normal", 50, 580);
+                        g.setColor(Color.GREEN);
+                        g.drawString("easy", 50, 580);
+                    }
+                    if (difficulty == 2) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.drawString("normal", 50, 580);
+                    }
+                    if (difficulty == 3) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("normal", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.RED);
+                        g.drawString("hardcore", 50, 580);
+                    }
+                }
+
+                        if (soundChecker == 0) {
                     Playgoal(win);
                     soundChecker += 1;
                 }
@@ -395,7 +500,59 @@ public class Pong extends JPanel implements Runnable, KeyListener {
                 g.setFont(small);
                 g.drawString("press r to start", 340, 500);
 
-                if (soundChecker == 0) {
+                        g.setFont(micro);
+                        g.drawString(" n: ", 35, 540);
+                        g.drawString(" B: ", 35, 500);
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("easy", 50, 580);
+                        g.drawString("normal", 50, 580);
+                        g.drawString("hardcore", 50, 580);
+
+                        if(!botIsValid) {
+                            g.setFont(small);
+                            g.setColor(Color.BLACK);
+                            g.drawString(" AI activated", 50, 500);
+                            g.setColor(Color.RED);
+                            g.drawString(" AI deactivated", 50, 540);
+                            rightBumper.move(true);
+                        }
+
+                        if(botIsValid) {
+                            g.setFont(small);
+                            g.setColor(Color.BLACK);
+                            g.drawString(" AI deactivated", 50, 540);
+                            g.setColor(Color.GREEN);
+                            g.drawString(" AI activated", 50, 500);
+                            rightBumper.move(false);
+
+                            if(difficulty == 1) {
+                                g.setFont(micro);
+                                g.setColor(Color.BLACK);
+                                g.drawString("hardcore", 50, 580);
+                                g.drawString("normal", 50, 580);
+                                g.setColor(Color.GREEN);
+                                g.drawString("easy", 50, 580);
+                            }
+                            if(difficulty == 2) {
+                                g.setFont(micro);
+                                g.setColor(Color.BLACK);
+                                g.drawString("hardcore", 50, 580);
+                                g.drawString("easy", 50, 580);
+                                g.setColor(Color.LIGHT_GRAY);
+                                g.drawString("normal", 50, 580);
+                            }
+                            if(difficulty == 3) {
+                                g.setFont(micro);
+                                g.setColor(Color.BLACK);
+                                g.drawString("normal", 50, 580);
+                                g.drawString("easy", 50, 580);
+                                g.setColor(Color.RED);
+                                g.drawString("hardcore", 50, 580);
+                            }
+                        }
+
+                                if (soundChecker == 0) {
                     Playgoal(draw);
                     soundChecker += 1;
                 }

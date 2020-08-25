@@ -87,13 +87,13 @@ public class Bumper {
             }
                 rect.setLocation(xKoord, yKoord);
 
-            if(difficulty == 1){    // BOT IST UNBESIEGBAR      // TIMER KONFIGURATION FEHLT NOCH
+            if(difficulty == 1){
                 if(speed > 3){
                     speed = 3 + manyUps;
                     yKoord += speed ;
                 }
                 if(speed < -3){
-                    speed = -(4  + manyUps);
+                    speed = -(3  + manyUps);
                     yKoord += speed ;
                 }
                 if (yKoord > 600 - height) {
