@@ -18,7 +18,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
     Font middel, small, big, micro;    // for a different font size
     TimerTimer newTimer, shadow;    // for the timer and the shadow of the timer
     Item item;
-    int randX, randY, counter, soundChecker, start, firstStart, difficulty;
+    int randX, randY, counter, soundChecker, start, firstStart, difficulty, whichTimeItIS;
     boolean botIsValid;
 
 
@@ -63,11 +63,14 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         firstStart = 0;  // to check if it starts the first time or is restarting the program
         botIsValid = false; // to check if the Bot should be displayed or not
         difficulty = 0;
+        whichTimeItIS = 60;
     }
 
     public void startGame() {
         newTimer = new TimerTimer();
         shadow = new TimerTimer();
+        newTimer.setSeconds(whichTimeItIS);
+        shadow.setSeconds(whichTimeItIS);
         repaint();
         newTimer.start();
         shadow.start();
@@ -213,14 +216,17 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         if (start == 0 && firstStart == 0) { // to draw the start screen
+
             g.setColor(Color.WHITE);
             g.setFont(big);
             g.drawString("press r to start", 275, 300);
             g.setFont(micro);
             g.drawString(" n: ", 35, 540);
             g.drawString(" b: ", 35, 500);
-            g.setFont(micro);
+            g.drawString("press t: ", 560, 500);
+            g.drawString(whichTimeItIS + " sec", 560, 540);
             g.setColor(Color.BLACK);
             g.drawString("easy", 50, 580);
             g.drawString("normal", 50, 580);
@@ -277,6 +283,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.drawString(" AI activated", 50, 500);
             g.drawString(" AI deactivated", 50, 540);
             g.setFont(micro);
+            g.drawString("press t: ", 560, 500);
+            g.drawString(whichTimeItIS + " sec", 560, 540);
             g.drawString(" n: ", 35, 540);
             g.drawString(" b: ", 35, 500);
             g.drawString("easy", 50, 580);
@@ -309,17 +317,28 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.fillRect(item.getXKoord(), item.getYKoord(), item.getWidth(), item.getHeight());
             }
             if (newTimer.getSeconds() > 0) {    // to display the timer and its timer-shadow
-                g.setFont(big);
-                g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(shadow.getSeconds()), 385, 32);
-                g.setFont(middel);
-                g.setColor(Color.WHITE);
-                g.drawString(Integer.toString(newTimer.getSeconds()), 390, 30);
+                if(whichTimeItIS < 100) {
+                    g.setFont(big);
+                    g.setColor(Color.BLACK);
+                    g.drawString(Integer.toString(shadow.getSeconds()), 387, 32);
+                    g.setFont(middel);
+                    g.setColor(Color.WHITE);
+                    g.drawString(Integer.toString(newTimer.getSeconds()), 390, 30);
+                }
+                if(whichTimeItIS > 100) {
+                    g.setFont(big);
+                    g.setColor(Color.BLACK);
+                    g.drawString(Integer.toString(shadow.getSeconds()), 377, 32);
+                    g.setFont(middel);
+                    g.setColor(Color.WHITE);
+                    g.drawString(Integer.toString(newTimer.getSeconds()), 380, 30);
+                }
             } else if (spielball.getCounterLeft() < spielball.getCounterRight()) {  // to display that the right player won
                 spielball.action(0);
                 leftBumper.action(0);
                 rightBumper.action(0);
                 item.setVisible(false);
+
                 g.setColor(Color.BLACK);
                 g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
                 g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
@@ -329,25 +348,25 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 for (int i = 0; i < 800; i++) {
                     g.drawString("|| ", 400, i);
                 }
-                g.setFont(middel);
-                g.setColor(Color.WHITE);
-                g.drawString("right Player Won", 300, 300);
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
+                    g.setFont(middel);
+                    g.setColor(Color.WHITE);
+                    g.drawString("right Player Won", 300, 300);
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
 
-                g.setColor(Color.WHITE);
-                g.setFont(small);
-                g.drawString("press r to start", 340, 500);
+                    g.setColor(Color.WHITE);
+                    g.setFont(small);
+                    g.drawString("press r to start", 340, 500);
 
-
-                g.setFont(micro);
-                g.drawString(" n: ", 35, 540);
-                g.drawString(" b: ", 35, 500);
-                g.setFont(micro);
-                g.setColor(Color.BLACK);
-                g.drawString("easy", 50, 580);
-                g.drawString("normal", 50, 580);
-                g.drawString("hardcore", 50, 580);
+                    g.setFont(micro);
+                    g.drawString(" n: ", 35, 540);
+                    g.drawString(" b: ", 35, 500);
+                    g.drawString("press t: ", 560, 500);
+                    g.drawString(whichTimeItIS + " sec", 560, 540);
+                    g.setColor(Color.BLACK);
+                    g.drawString("easy", 50, 580);
+                    g.drawString("normal", 50, 580);
+                    g.drawString("hardcore", 50, 580);
 
                 if(!botIsValid) {
                     g.setFont(small);
@@ -401,33 +420,35 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 leftBumper.action(0);
                 rightBumper.action(0);
                 item.setVisible(false);
+
                 g.setColor(Color.BLACK);
                 g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
                 g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
                 g.fillRect(rightBumper.getXKoord(), rightBumper.getYKoord(), rightBumper.getWidth(), rightBumper.getHeight());
                 g.drawString(Integer.toString(spielball.getCounterRight()), 600, 20);
                 g.drawString(Integer.toString(spielball.getCounterLeft()), 200, 20);
+
                 for (int i = 0; i < 800; i++) {
                     g.drawString("|| ", 400, i);
                 }
+
                 g.setFont(middel);
-                g.setColor(Color.WHITE);
-                g.drawString("left Player Won", 300, 300);
                 g.setColor(Color.LIGHT_GRAY);
                 g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
-
                 g.setColor(Color.WHITE);
+                g.drawString("left Player Won", 300, 300);
                 g.setFont(small);
                 g.drawString("press r to start", 340, 500);
-
                 g.setFont(micro);
                 g.drawString(" n: ", 35, 540);
                 g.drawString(" b: ", 35, 500);
-                g.setFont(micro);
+                g.drawString("press t: ", 560, 500);
+                g.drawString(whichTimeItIS + " sec", 560, 540);
                 g.setColor(Color.BLACK);
                 g.drawString("easy", 50, 580);
                 g.drawString("normal", 50, 580);
                 g.drawString("hardcore", 50, 580);
+
 
                 if(!botIsValid) {
                     g.setFont(small);
@@ -476,6 +497,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     Playgoal(win);
                     soundChecker += 1;
                 }
+
             } else if (spielball.getCounterLeft() == spielball.getCounterRight()) { // to display that the game is a draw
                 spielball.action(0);
                 leftBumper.action(0);
@@ -490,20 +512,21 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 for (int i = 0; i < 800; i++) {
                     g.drawString("|| ", 400, i);
                 }
-                g.setFont(middel);
-                g.setColor(Color.WHITE);
-                g.drawString("DRAW", 360, 300);
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
+                        g.setFont(middel);
+                        g.setColor(Color.WHITE);
+                        g.drawString("DRAW", 360, 300);
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
 
-                g.setColor(Color.WHITE);
-                g.setFont(small);
-                g.drawString("press r to start", 340, 500);
+                        g.setColor(Color.WHITE);
+                        g.setFont(small);
+                        g.drawString("press r to start", 340, 500);
 
                         g.setFont(micro);
                         g.drawString(" n: ", 35, 540);
                         g.drawString(" b: ", 35, 500);
-                        g.setFont(micro);
+                        g.drawString("press t: ", 560, 500);
+                        g.drawString(whichTimeItIS + " sec", 560, 540);
                         g.setColor(Color.BLACK);
                         g.drawString("easy", 50, 580);
                         g.drawString("normal", 50, 580);
@@ -586,7 +609,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 item.setVisible(true);
             }
         } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)) {  // to let the game end at an instant
-            newTimer.setSeconds();
+            newTimer.setSeconds(0);
         }
     }
 
@@ -619,6 +642,16 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         }
 
         if (spielball.getDy() == 0) {
+
+                if (e.getKeyChar() == 't') {
+
+                    if(whichTimeItIS < 180) {
+                        whichTimeItIS += 60;
+                    }
+                    else if(whichTimeItIS  == 180) {
+                        whichTimeItIS = 60;
+                    }
+                }
 
                 if (e.getKeyChar() == 'r') {
                     System.out.println("start");

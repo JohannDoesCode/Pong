@@ -21,8 +21,8 @@ public class TimerTimer {
         return secondsPassed;
     }
 
-    public void setSeconds() {
-        secondsPassed = 0;
+    public void setSeconds(int i) {
+        secondsPassed = i;
     }
 
     public static void main(String[] args) {
