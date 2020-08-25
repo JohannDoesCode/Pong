@@ -226,6 +226,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.drawString(" n: ", 35, 540);
             g.drawString(" b: ", 35, 500);
             g.drawString("press t: ", 560, 500);
+            g.setColor(Color.MAGENTA);
             g.drawString(whichTimeItIS + " sec", 560, 540);
             g.setColor(Color.BLACK);
             g.drawString("easy", 50, 580);
@@ -362,6 +363,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     g.drawString(" n: ", 35, 540);
                     g.drawString(" b: ", 35, 500);
                     g.drawString("press t: ", 560, 500);
+                    g.setColor(Color.MAGENTA);
                     g.drawString(whichTimeItIS + " sec", 560, 540);
                     g.setColor(Color.BLACK);
                     g.drawString("easy", 50, 580);
@@ -443,6 +445,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString(" n: ", 35, 540);
                 g.drawString(" b: ", 35, 500);
                 g.drawString("press t: ", 560, 500);
+                g.setColor(Color.MAGENTA);
                 g.drawString(whichTimeItIS + " sec", 560, 540);
                 g.setColor(Color.BLACK);
                 g.drawString("easy", 50, 580);
@@ -526,6 +529,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                         g.drawString(" n: ", 35, 540);
                         g.drawString(" b: ", 35, 500);
                         g.drawString("press t: ", 560, 500);
+                        g.setColor(Color.MAGENTA);
                         g.drawString(whichTimeItIS + " sec", 560, 540);
                         g.setColor(Color.BLACK);
                         g.drawString("easy", 50, 580);
@@ -576,9 +580,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                         }
 
                                 if (soundChecker == 0) {
-                    Playgoal(draw);
-                    soundChecker += 1;
-                }
+                                Playgoal(draw);
+                                soundChecker += 1; }
             }
         }
     }
