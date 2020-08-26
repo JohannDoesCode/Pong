@@ -1,8 +1,9 @@
 import java.awt.Rectangle;
 
 public class Bumper {
-    private int xKoord, yKoord, width, height, v, manyUps, gravity, difficulty, speed;
-    private Rectangle rect;
+    private int yKoord, v, manyUps, gravity, difficulty, speed;
+    private final int xKoord, width, height;
+    private final Rectangle rect;
 
 
     public Bumper(int xKoord) {
@@ -17,11 +18,11 @@ public class Bumper {
         rect = new Rectangle(xKoord, yKoord, width, height);
     }
 
-    public void setDifficulty(int diffi){
+    public void setDifficulty(int diffi) {
         difficulty = diffi;
     }
 
-    public void setSpeed(int speed){
+    public void setSpeed(int speed) {
         this.speed = speed;
 
     }
@@ -52,7 +53,7 @@ public class Bumper {
 
 
     public void move(boolean movement) {
-        if(movement) {
+        if (movement) {
             if (yKoord <= 598 - height) {
                 yKoord += gravity;
             }
@@ -80,62 +81,62 @@ public class Bumper {
             }
         }
 
-        if(!movement) {
+        if (!movement) {
 
             if (yKoord <= 598 - height) {
                 yKoord += gravity;
             }
-                rect.setLocation(xKoord, yKoord);
+            rect.setLocation(xKoord, yKoord);
 
-            if(difficulty == 1){
-                if(speed > 3){
+            if (difficulty == 1) {
+                if (speed > 3) {
                     speed = 3 + manyUps;
-                    yKoord += speed ;
+                    yKoord += speed;
                 }
-                if(speed < -3){
-                    speed = -(3  + manyUps);
-                    yKoord += speed ;
+                if (speed < -3) {
+                    speed = -(3 + manyUps);
+                    yKoord += speed;
                 }
                 if (yKoord > 600 - height) {
-                    yKoord -= speed ;
+                    yKoord -= speed;
                 }
-                if (yKoord < 0){
-                    yKoord += speed ;
+                if (yKoord < 0) {
+                    yKoord += speed;
                 }
 
             }
 
-            if(difficulty == 2){
-                if(speed > 3){
+            if (difficulty == 2) {
+                if (speed > 3) {
                     speed = 3 + manyUps;
-                    yKoord += speed ;
+                    yKoord += speed;
                 }
-                if(speed < -3){
-                    speed = -(4  + manyUps);
-                    yKoord += speed ;
+                if (speed < -3) {
+                    speed = -(4 + manyUps);
+                    yKoord += speed;
                 }
                 if (yKoord > 600 - height) {
-                    yKoord -= speed ;
+                    yKoord -= speed;
                 }
-                if(yKoord < 0) {
-                    yKoord += speed ;
+                if (yKoord < 0) {
+                    yKoord += speed;
                 }
             }
 
-            if(difficulty == 3){
-                if(speed > 3){
+            if (difficulty == 3) {
+                if (speed > 3) {
                     speed = 4 + manyUps;
-                    yKoord += speed ;
+                    yKoord += speed;
                 }
-                if(speed < -3){
-                    speed = -(5  + manyUps);
-                    yKoord += speed ;
+                if (speed < -3) {
+                    speed = -(5 + manyUps);
+                    yKoord += speed;
                 }
                 if (yKoord > 600 - height) {
-                    yKoord -= speed ;
+                    yKoord -= speed;
                 }
-                if(yKoord < 0) {
-                    yKoord += speed ;
+                if (yKoord < 0) {
+                    yKoord += speed;
                 }
             }
         }

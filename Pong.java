@@ -18,7 +18,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
     Font middel, small, big, micro;    // for a different font size
     TimerTimer newTimer, shadow;    // for the timer and the shadow of the timer
     Item item;
-    int randX, randY, counter, soundChecker, start, firstStart, difficulty, whichTimeItIS;
+    int randX, randY, counter, soundChecker, start, firstStart, difficulty, whichTimeItIS, sp, counterLeft, counterRight;
     boolean botIsValid;
 
 
@@ -64,6 +64,9 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         botIsValid = false; // to check if the Bot should be displayed or not
         difficulty = 0;
         whichTimeItIS = 60;
+        sp = 0;
+        counterLeft = 0;
+        counterRight = 0;
     }
 
     public void startGame() {
@@ -82,7 +85,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         spielball.resetPowerUp();
         leftBumper.resetPowerUp();
         rightBumper.resetPowerUp();
-        spielball.resetCounter();
+        resetCounter();
         soundChecker = 0;
     }
 
@@ -97,12 +100,30 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     moveObjects();
                     repaint();
 
-                    if (spielball.setSound() == 1) {    // to look if the goal should be played
-                        spielball.playSound(0);
+                    if (sp == 1) {    // to look if the goal should be played
+                        sp = 0;
                         Playgoal(goal);
                     }
+                    if (spielball.getXKoord() > 780) {     // to check if a goal for the left side has been achieved
+                        spielball.respawn();
+                        System.out.println(+counterLeft + " - " + counterRight);
+                        System.out.println("");
+                        sp = 1;
+                        spielball.action(4);
+                        counterLeft += 1;
+                    }
 
-                    if (spielball.getCounterRight() >= 1 || spielball.getCounterLeft() >= 1) {   // to give the power-up a chance to spawn in after getting at least 1 goal
+                    if (spielball.getXKoord() < 0) {       // to check if a goal for the right side has been achieved
+
+                        spielball.respawn();
+                        System.out.println(+counterLeft + " - " + counterRight);
+                        System.out.println("");
+                        sp = 1;
+                        spielball.action(4);
+                        counterRight += 1;
+                    }
+
+                    if (counterRight >= 1 || counterLeft >= 1) {   // to give the power-up a chance to spawn in after getting at least 1 goal
                         if (!item.getVisible() && newTimer.getSeconds() > 0) {
                             int rand = (int) ((Math.random() * 2000) + 1);    // to randomize the chance a power-up spawns
                             if (rand == 20) {
@@ -135,16 +156,16 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
                     if (spielball.getRect().intersects(leftBumper.getRect())) {    // to check if the ball is hitting a Bumper
 
-                        for(int i = 0;i < leftBumper.getHeight(); i++){     // creates a random angle
-                            if(spielball.getYKoord() - 10 == leftBumper.getYKoord()+ i){
-                                if(i <= 50 || i > 200){
-                                    spielball.actionAngle((int) (Math.random() * 5)  + 1);
+                        for (int i = 0; i < leftBumper.getHeight(); i++) {     // creates a random angle
+                            if (spielball.getYKoord() - 10 == leftBumper.getYKoord() + i) {
+                                if (i <= 50 || i > 200) {
+                                    spielball.actionAngle((int) (Math.random() * 5) + 1);
                                 }
-                                if(i > 50 && i <= 100 || i > 150 && i <= 200){
-                                    spielball.actionAngle((int) (Math.random() * 10)  + 1);
+                                if (i > 50 && i <= 100 || i > 150 && i <= 200) {
+                                    spielball.actionAngle((int) (Math.random() * 10) + 1);
                                 }
-                                if(i > 100 && i <= 150 ){
-                                    spielball.actionAngle((int) (Math.random() * 20)  + 1);
+                                if (i > 100 && i <= 150) {
+                                    spielball.actionAngle((int) (Math.random() * 20) + 1);
                                 }
                             }
                         }
@@ -155,16 +176,16 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
                     if (spielball.getRect().intersects(rightBumper.getRect())) {    // to check if the ball is hitting a Bumper
 
-                        for(int i = 0;i < rightBumper.getHeight(); i++){    // creates a random angle
-                            if(spielball.getYKoord() - 10 == rightBumper.getYKoord()+ i){
-                                if(i <= 50 || i > 200){
-                                    spielball.actionAngle((int) (Math.random() * 5)  + 1);
+                        for (int i = 0; i < rightBumper.getHeight(); i++) {    // creates a random angle
+                            if (spielball.getYKoord() - 10 == rightBumper.getYKoord() + i) {
+                                if (i <= 50 || i > 200) {
+                                    spielball.actionAngle((int) (Math.random() * 5) + 1);
                                 }
-                                if(i > 50 && i <= 100 || i > 150 && i <= 200){
-                                    spielball.actionAngle((int) (Math.random() * 10)  + 1);
+                                if (i > 50 && i <= 100 || i > 150 && i <= 200) {
+                                    spielball.actionAngle((int) (Math.random() * 10) + 1);
                                 }
-                                if(i > 100 && i <= 150 ){
-                                    spielball.actionAngle((int) (Math.random() * 20)  + 1);
+                                if (i > 100 && i <= 150) {
+                                    spielball.actionAngle((int) (Math.random() * 20) + 1);
                                 }
                             }
                         }
@@ -190,10 +211,9 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         if (newTimer.getSeconds() > 0) {
             rightBumper.setSpeed(spielball.getYKoord() - rightBumper.getYKoord());
             leftBumper.move(true);
-            if(!botIsValid) {
+            if (!botIsValid) {
                 rightBumper.move(true);
-            }
-            else if (botIsValid){
+            } else {
                 rightBumper.move(false);
             }
         }
@@ -209,7 +229,12 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
         }
     }
 
-    public void setDifficulty(int diffi){
+    public void resetCounter() {
+        counterLeft = 0;
+        counterRight = 0;
+    }   // for the restart
+
+    public void setDifficulty(int diffi) {
         difficulty = diffi;
     }
 
@@ -233,7 +258,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             g.drawString("normal", 50, 580);
             g.drawString("hardcore", 50, 580);
 
-            if(!botIsValid) {
+            if (!botIsValid) {
                 g.setFont(small);
                 g.setColor(Color.BLACK);
                 g.drawString(" AI activated", 50, 500);
@@ -242,7 +267,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 rightBumper.move(true);
             }
 
-            if(botIsValid) {
+            if (botIsValid) {
                 g.setFont(small);
                 g.setColor(Color.BLACK);
                 g.drawString(" AI deactivated", 50, 540);
@@ -250,7 +275,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString(" AI activated", 50, 500);
                 rightBumper.move(false);
 
-                if(difficulty == 1) {
+                if (difficulty == 1) {   // to check the Bot´s difficulty
                     g.setFont(micro);
                     g.setColor(Color.BLACK);
                     g.drawString("hardcore", 50, 580);
@@ -258,7 +283,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     g.setColor(Color.GREEN);
                     g.drawString("easy", 50, 580);
                 }
-                if(difficulty == 2) {
+                if (difficulty == 2) {
                     g.setFont(micro);
                     g.setColor(Color.BLACK);
                     g.drawString("hardcore", 50, 580);
@@ -266,7 +291,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     g.setColor(Color.LIGHT_GRAY);
                     g.drawString("normal", 50, 580);
                 }
-                if(difficulty == 3) {
+                if (difficulty == 3) {
                     g.setFont(micro);
                     g.setColor(Color.BLACK);
                     g.drawString("normal", 50, 580);
@@ -305,8 +330,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
             // to draw the score
 
             g.setFont(small);
-            g.drawString(Integer.toString(spielball.getCounterRight()), 600, 20);
-            g.drawString(Integer.toString(spielball.getCounterLeft()), 200, 20);
+            g.drawString(Integer.toString(counterRight), 600, 20);
+            g.drawString(Integer.toString(counterLeft), 200, 20);
 
             g.setColor(Color.WHITE);
 
@@ -318,7 +343,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.fillRect(item.getXKoord(), item.getYKoord(), item.getWidth(), item.getHeight());
             }
             if (newTimer.getSeconds() > 0) {    // to display the timer and its timer-shadow
-                if(whichTimeItIS < 100) {
+                if (whichTimeItIS < 100) {
                     g.setFont(big);
                     g.setColor(Color.BLACK);
                     g.drawString(Integer.toString(shadow.getSeconds()), 387, 32);
@@ -326,7 +351,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     g.setColor(Color.WHITE);
                     g.drawString(Integer.toString(newTimer.getSeconds()), 390, 30);
                 }
-                if(whichTimeItIS > 100) {
+                if (whichTimeItIS > 100) {
                     g.setFont(big);
                     g.setColor(Color.BLACK);
                     g.drawString(Integer.toString(shadow.getSeconds()), 377, 32);
@@ -334,7 +359,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     g.setColor(Color.WHITE);
                     g.drawString(Integer.toString(newTimer.getSeconds()), 380, 30);
                 }
-            } else if (spielball.getCounterLeft() < spielball.getCounterRight()) {  // to display that the right player won
+            } else if (counterLeft < counterRight) {  // to display that the right player won
                 spielball.action(0);
                 leftBumper.action(0);
                 rightBumper.action(0);
@@ -344,103 +369,23 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
                 g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
                 g.fillRect(rightBumper.getXKoord(), rightBumper.getYKoord(), rightBumper.getWidth(), rightBumper.getHeight());
-                g.drawString(Integer.toString(spielball.getCounterRight()), 600, 20);
-                g.drawString(Integer.toString(spielball.getCounterLeft()), 200, 20);
-                for (int i = 0; i < 800; i++) {
-                    g.drawString("|| ", 400, i);
-                }
-                    g.setFont(middel);
-                    g.setColor(Color.WHITE);
-                    g.drawString("right Player Won", 300, 300);
-                    g.setColor(Color.LIGHT_GRAY);
-                    g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
-
-                    g.setColor(Color.WHITE);
-                    g.setFont(small);
-                    g.drawString("press r to start", 340, 500);
-
-                    g.setFont(micro);
-                    g.drawString(" n: ", 35, 540);
-                    g.drawString(" b: ", 35, 500);
-                    g.drawString("press t: ", 560, 500);
-                    g.setColor(Color.MAGENTA);
-                    g.drawString(whichTimeItIS + " sec", 560, 540);
-                    g.setColor(Color.BLACK);
-                    g.drawString("easy", 50, 580);
-                    g.drawString("normal", 50, 580);
-                    g.drawString("hardcore", 50, 580);
-
-                if(!botIsValid) {
-                    g.setFont(small);
-                    g.setColor(Color.BLACK);
-                    g.drawString(" AI activated", 50, 500);
-                    g.setColor(Color.RED);
-                    g.drawString(" AI deactivated", 50, 540);
-                    rightBumper.move(true);
-                }
-
-                if(botIsValid) {
-                    g.setFont(small);
-                    g.setColor(Color.BLACK);
-                    g.drawString(" AI deactivated", 50, 540);
-                    g.setColor(Color.GREEN);
-                    g.drawString(" AI activated", 50, 500);
-                    rightBumper.move(false);
-
-                    if(difficulty == 1) {
-                        g.setFont(micro);
-                        g.setColor(Color.BLACK);
-                        g.drawString("hardcore", 50, 580);
-                        g.drawString("normal", 50, 580);
-                        g.setColor(Color.GREEN);
-                        g.drawString("easy", 50, 580);
-                    }
-                    if(difficulty == 2) {
-                        g.setFont(micro);
-                        g.setColor(Color.BLACK);
-                        g.drawString("hardcore", 50, 580);
-                        g.drawString("easy", 50, 580);
-                        g.setColor(Color.LIGHT_GRAY);
-                        g.drawString("normal", 50, 580);
-                    }
-                    if(difficulty == 3) {
-                        g.setFont(micro);
-                        g.setColor(Color.BLACK);
-                        g.drawString("normal", 50, 580);
-                        g.drawString("easy", 50, 580);
-                        g.setColor(Color.RED);
-                        g.drawString("hardcore", 50, 580);
-                    }
-                }
-
-                if (soundChecker == 0) {
-                    Playgoal(win);
-                    soundChecker += 1;
-                }
-            } else if (spielball.getCounterLeft() > spielball.getCounterRight()) {  // to display that the left player won
-                spielball.action(0);
-                leftBumper.action(0);
-                rightBumper.action(0);
-                item.setVisible(false);
-
-                g.setColor(Color.BLACK);
-                g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
-                g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
-                g.fillRect(rightBumper.getXKoord(), rightBumper.getYKoord(), rightBumper.getWidth(), rightBumper.getHeight());
-                g.drawString(Integer.toString(spielball.getCounterRight()), 600, 20);
-                g.drawString(Integer.toString(spielball.getCounterLeft()), 200, 20);
+                g.drawString(Integer.toString(counterRight), 600, 20);
+                g.drawString(Integer.toString(counterLeft), 200, 20);
 
                 for (int i = 0; i < 800; i++) {
                     g.drawString("|| ", 400, i);
                 }
 
                 g.setFont(middel);
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
                 g.setColor(Color.WHITE);
-                g.drawString("left Player Won", 300, 300);
+                g.drawString("right Player Won", 300, 300);
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawString(counterLeft + "           -           " + counterRight, 300, 200);
+
+                g.setColor(Color.WHITE);
                 g.setFont(small);
                 g.drawString("press r to start", 340, 500);
+
                 g.setFont(micro);
                 g.drawString(" n: ", 35, 540);
                 g.drawString(" b: ", 35, 500);
@@ -452,8 +397,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.drawString("normal", 50, 580);
                 g.drawString("hardcore", 50, 580);
 
-
-                if(!botIsValid) {
+                if (!botIsValid) {
                     g.setFont(small);
                     g.setColor(Color.BLACK);
                     g.drawString(" AI activated", 50, 500);
@@ -462,7 +406,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     rightBumper.move(true);
                 }
 
-                if(botIsValid) {
+                if (botIsValid) {
                     g.setFont(small);
                     g.setColor(Color.BLACK);
                     g.drawString(" AI deactivated", 50, 540);
@@ -496,12 +440,95 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                     }
                 }
 
-                        if (soundChecker == 0) {
+                if (soundChecker == 0) {
+                    Playgoal(win);
+                    soundChecker += 1;
+                }
+            } else if (counterLeft > counterRight) {  // to display that the left player won
+                spielball.action(0);
+                leftBumper.action(0);
+                rightBumper.action(0);
+                item.setVisible(false);
+
+                g.setColor(Color.BLACK);
+                g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
+                g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
+                g.fillRect(rightBumper.getXKoord(), rightBumper.getYKoord(), rightBumper.getWidth(), rightBumper.getHeight());
+                g.drawString(Integer.toString(counterRight), 600, 20);
+                g.drawString(Integer.toString(counterLeft), 200, 20);
+
+                for (int i = 0; i < 800; i++) {
+                    g.drawString("|| ", 400, i);
+                }
+
+                g.setFont(middel);
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawString(counterLeft + "           -           " + counterRight, 300, 200);
+                g.setColor(Color.WHITE);
+                g.drawString("left Player Won", 300, 300);
+                g.setFont(small);
+                g.drawString("press r to start", 340, 500);
+                g.setFont(micro);
+                g.drawString(" n: ", 35, 540);
+                g.drawString(" b: ", 35, 500);
+                g.drawString("press t: ", 560, 500);
+                g.setColor(Color.MAGENTA);
+                g.drawString(whichTimeItIS + " sec", 560, 540);
+                g.setColor(Color.BLACK);
+                g.drawString("easy", 50, 580);
+                g.drawString("normal", 50, 580);
+                g.drawString("hardcore", 50, 580);
+
+
+                if (!botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI activated", 50, 500);
+                    g.setColor(Color.RED);
+                    g.drawString(" AI deactivated", 50, 540);
+                    rightBumper.move(true);
+                }
+
+                if (botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI deactivated", 50, 540);
+                    g.setColor(Color.GREEN);
+                    g.drawString(" AI activated", 50, 500);
+                    rightBumper.move(false);
+
+                    if (difficulty == 1) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("normal", 50, 580);
+                        g.setColor(Color.GREEN);
+                        g.drawString("easy", 50, 580);
+                    }
+                    if (difficulty == 2) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.drawString("normal", 50, 580);
+                    }
+                    if (difficulty == 3) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("normal", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.RED);
+                        g.drawString("hardcore", 50, 580);
+                    }
+                }
+
+                if (soundChecker == 0) {
                     Playgoal(win);
                     soundChecker += 1;
                 }
 
-            } else if (spielball.getCounterLeft() == spielball.getCounterRight()) { // to display that the game is a draw
+            } else if (counterLeft == counterRight) { // to display that the game is a draw
                 spielball.action(0);
                 leftBumper.action(0);
                 rightBumper.action(0);
@@ -510,78 +537,82 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 g.fillOval(spielball.getXKoord(), spielball.getYKoord(), spielball.getSize(), spielball.getSize());
                 g.fillRect(leftBumper.getXKoord(), leftBumper.getYKoord(), leftBumper.getWidth(), leftBumper.getHeight());
                 g.fillRect(rightBumper.getXKoord(), rightBumper.getYKoord(), rightBumper.getWidth(), rightBumper.getHeight());
-                g.drawString(Integer.toString(spielball.getCounterRight()), 600, 20);
-                g.drawString(Integer.toString(spielball.getCounterLeft()), 200, 20);
+                g.drawString(Integer.toString(counterRight), 600, 20);
+                g.drawString(Integer.toString(counterLeft), 200, 20);
+
                 for (int i = 0; i < 800; i++) {
                     g.drawString("|| ", 400, i);
                 }
-                        g.setFont(middel);
-                        g.setColor(Color.WHITE);
-                        g.drawString("DRAW", 360, 300);
-                        g.setColor(Color.LIGHT_GRAY);
-                        g.drawString(spielball.getCounterLeft() + "           -           " + spielball.getCounterRight(), 300, 200);
 
-                        g.setColor(Color.WHITE);
-                        g.setFont(small);
-                        g.drawString("press r to start", 340, 500);
+                g.setFont(middel);
+                g.setColor(Color.WHITE);
+                g.drawString("DRAW", 360, 300);
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawString(counterLeft + "           -           " + counterRight, 300, 200);
 
+                g.setColor(Color.WHITE);
+                g.setFont(small);
+                g.drawString("press r to start", 340, 500);
+
+                g.setFont(micro);
+                g.drawString(" n: ", 35, 540);
+                g.drawString(" b: ", 35, 500);
+                g.drawString("press t: ", 560, 500);
+                g.setColor(Color.MAGENTA);
+                g.drawString(whichTimeItIS + " sec", 560, 540);
+                g.setColor(Color.BLACK);
+                g.drawString("easy", 50, 580);
+                g.drawString("normal", 50, 580);
+                g.drawString("hardcore", 50, 580);
+
+                if (!botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI activated", 50, 500);
+                    g.setColor(Color.RED);
+                    g.drawString(" AI deactivated", 50, 540);
+                    rightBumper.move(true);
+                }
+
+                if (botIsValid) {
+                    g.setFont(small);
+                    g.setColor(Color.BLACK);
+                    g.drawString(" AI deactivated", 50, 540);
+                    g.setColor(Color.GREEN);
+                    g.drawString(" AI activated", 50, 500);
+                    rightBumper.move(false);
+
+                    if (difficulty == 1) {
                         g.setFont(micro);
-                        g.drawString(" n: ", 35, 540);
-                        g.drawString(" b: ", 35, 500);
-                        g.drawString("press t: ", 560, 500);
-                        g.setColor(Color.MAGENTA);
-                        g.drawString(whichTimeItIS + " sec", 560, 540);
                         g.setColor(Color.BLACK);
-                        g.drawString("easy", 50, 580);
-                        g.drawString("normal", 50, 580);
                         g.drawString("hardcore", 50, 580);
-
-                        if(!botIsValid) {
-                            g.setFont(small);
-                            g.setColor(Color.BLACK);
-                            g.drawString(" AI activated", 50, 500);
-                            g.setColor(Color.RED);
-                            g.drawString(" AI deactivated", 50, 540);
-                            rightBumper.move(true);
-                        }
-
-                        if(botIsValid) {
-                            g.setFont(small);
-                            g.setColor(Color.BLACK);
-                            g.drawString(" AI deactivated", 50, 540);
-                            g.setColor(Color.GREEN);
-                            g.drawString(" AI activated", 50, 500);
-                            rightBumper.move(false);
-
-                            if(difficulty == 1) {
-                                g.setFont(micro);
-                                g.setColor(Color.BLACK);
-                                g.drawString("hardcore", 50, 580);
-                                g.drawString("normal", 50, 580);
-                                g.setColor(Color.GREEN);
-                                g.drawString("easy", 50, 580);
-                            }
-                            if(difficulty == 2) {
-                                g.setFont(micro);
-                                g.setColor(Color.BLACK);
-                                g.drawString("hardcore", 50, 580);
-                                g.drawString("easy", 50, 580);
-                                g.setColor(Color.LIGHT_GRAY);
-                                g.drawString("normal", 50, 580);
-                            }
-                            if(difficulty == 3) {
-                                g.setFont(micro);
-                                g.setColor(Color.BLACK);
-                                g.drawString("normal", 50, 580);
-                                g.drawString("easy", 50, 580);
-                                g.setColor(Color.RED);
-                                g.drawString("hardcore", 50, 580);
-                            }
-                        }
-
-                                if (soundChecker == 0) {
-                                Playgoal(draw);
-                                soundChecker += 1; }
+                        g.drawString("normal", 50, 580);
+                        g.setColor(Color.GREEN);
+                        g.drawString("easy", 50, 580);
+                    }
+                    if (difficulty == 2) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("hardcore", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.drawString("normal", 50, 580);
+                    }
+                    if (difficulty == 3) {
+                        g.setFont(micro);
+                        g.setColor(Color.BLACK);
+                        g.drawString("normal", 50, 580);
+                        g.drawString("easy", 50, 580);
+                        g.setColor(Color.RED);
+                        g.drawString("hardcore", 50, 580);
+                    }
+                }
+                if (soundChecker == 0) {
+                    Playgoal(draw);
+                    soundChecker += 1;
+                }
+            } else {      // to prevent the ball keeps moving if a bug seems to appear
+                spielball.action(0);
             }
         }
     }
@@ -602,8 +633,8 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
         if ((e.getKeyCode() == KeyEvent.VK_LEFT)) {     // to spawn a power-up at an instant
             if (newTimer.getSeconds() > 0) {
-                spielball.setCounterRight();
-                spielball.setCounterLeft();
+                counterRight += 1;
+                counterLeft += 1;
                 randX = (int) ((Math.random() * 400) + 200);
                 randY = (int) ((Math.random() * 300) + 100);
                 item.setXKoord(randX);
@@ -646,25 +677,24 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
 
         if (spielball.getDy() == 0) {
 
-                if (e.getKeyChar() == 't') {
+            if (e.getKeyChar() == 't') {
 
-                    if(whichTimeItIS < 180) {
-                        whichTimeItIS += 60;
-                    }
-                    else if(whichTimeItIS  == 180) {
-                        whichTimeItIS = 60;
-                    }
+                if (whichTimeItIS < 180) {
+                    whichTimeItIS += 60;
+                } else if (whichTimeItIS == 180) {
+                    whichTimeItIS = 60;
                 }
+            }
 
-                if (e.getKeyChar() == 'r') {
-                    System.out.println("start");
-                    System.out.println(" ");
-                    start = 0;
-                    firstStart = 1;
-                    startGame();
-                }
+            if (e.getKeyChar() == 'r') {
+                System.out.println("start");
+                System.out.println(" ");
+                start = 0;
+                firstStart = 1;
+                startGame();
+            }
 
-            if(!botIsValid) {
+            if (!botIsValid) {
                 if (e.getKeyChar() == 'b') {
                     botIsValid = true;
                     setDifficulty(1);
@@ -672,7 +702,7 @@ public class Pong extends JPanel implements Runnable, KeyListener {         // T
                 }
             }
 
-            if(botIsValid) {
+            if (botIsValid) {
 
                 if (e.getKeyChar() == 'n') {
                     botIsValid = false;
